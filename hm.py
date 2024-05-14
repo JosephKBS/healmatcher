@@ -64,7 +64,7 @@ testb = pd.DataFrame({
 def hm(df_a=testa, df_b=testb, col_a=None, col_b=None,
        match_prob_threshold=0.001, 
        iteration=20,
-        blocking_rule_prov = blocking_rule_prov,
+       blocking_rule_prov = blocking_rule_prov,
        iteration_input = 20,
        model2 = False,
        blocking_rule_for_training_input = "PROVIDER_NUMBER",
@@ -86,8 +86,10 @@ def hm(df_a=testa, df_b=testb, col_a=None, col_b=None,
     data_medicaid1 = test1.data_check(df_b, col_b)
     
     print("Model 1 begins..")
-    linker = test1.model_setup(df_a=data_cds1, df_b=data_medicaid1,
-                               col_a=col_a,col_b=col_b, 
+    linker = test1.model_setup(df_a=data_cds1, 
+                               df_b=data_medicaid1,
+                               col_a=col_a,
+                               col_b=col_b, 
                                variable = ['dob','ln','ssn','sex'],
                               model_status=1,
                               match_prob_threshold=match_prob_threshold, 
@@ -108,7 +110,10 @@ def hm(df_a=testa, df_b=testb, col_a=None, col_b=None,
         un_a=test1.find_unmatch(data_cds1, model1[0].as_pandas_dataframe())
         un_b=test1.find_unmatch(data_medicaid1, model1[0].as_pandas_dataframe())
         if un_a.shape[0]>0 and un_b.shape[0]>0:
-            linker2 = test1.model_setup( df_a=un_a,df_b=un_b, col_a=col_a,col_b=col_b, 
+            linker2 = test1.model_setup( df_a=un_a,
+                                        df_b=un_b, 
+                                        col_a=col_a,
+                                        col_b=col_b, 
                                    variable = ['dob','ln','ssn','sex'],
                                     model_status=2,
                                   match_prob_threshold=match_prob_threshold, 
@@ -126,6 +131,8 @@ def hm(df_a=testa, df_b=testb, col_a=None, col_b=None,
             print("No unmatched data")
             model1 = model1[0].as_pandas_dataframe()
             pass
+    elif model2 == False:
+        model1 = model1[0].as_pandas_dataframe()
     # one to one
     if onetoone == True:
         print("One to one cleaning begins..")
@@ -139,26 +146,17 @@ def hm(df_a=testa, df_b=testb, col_a=None, col_b=None,
         print("Matched rate (Medicaid): ", round(df1['unique_id_r'].nunique()/data_medicaid1['trackid'].nunique(),2 )*100,'%' )
     print("Matching complete")
     return df1
-'''
-def processing(data, cols):
-    data['DOB_y'] = pd.to_datetime(data['dob']).dt.year.astype(str)
-    data['DOB_m'] = pd.to_datetime(data['dob']).dt.month.astype(str)
-    data['DOB_d'] = pd.to_datetime(data['dob']).dt.day.astype(str)
-    data['DOB_m_count'] = data['DOB_m'].apply(lambda x: len(x))
-    data['DOB_d_count'] = data['DOB_d'].apply(lambda x: len(x))
-    data['DOB_m'] = np.where(data['DOB_m_count']==1, str(0)+data['DOB_m'], data['DOB_m'] )
-    data['DOB_d'] = np.where(data['DOB_d_count']==1, str(0)+data['DOB_d'], data['DOB_d'] )
-    data['unique_id'] = data['trackid']#.copy()
-    #data['unique_id'] = data[cols].apply(lambda row: ''.join(row.values.astype(str)), axis=1)
-    return data.drop(columns=['DOB_y','DOB_m','DOB_d','DOB_m_count','DOB_d_count'])
-d
-'''
 
 class healmatcher:
-    def __init__(self, df_a, df_b, col_a, col_b,
+    def __init__(self, 
+                 df_a, 
+                 df_b, 
+                 col_a, 
+                 col_b,
                  blocking_rule = blocking_rule_prov,
                  blocking_rule_for_training = "l.PROVIDER_NUMBER=r.PROVIDER_NUMBER",
-                 match_prob_threshold=0.001, iteration=20):
+                 match_prob_threshold=0.001, 
+                 iteration=20):
         self.df_a = df_a
         self.df_b = df_b
         self.col_a = col_a
