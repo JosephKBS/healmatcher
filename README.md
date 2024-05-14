@@ -1,5 +1,5 @@
 # healmatcher
-- `healmatcher` is a simple but fast probabilistic matching package developed by NYULH Heal Lab.
+- `healmatcher` is a simple but fast probabilistic matching package developed by NYULH HEAL Lab.
 - Currently, the model supports 4 variables (sex, date of birth, last 4 digits of ssn, and first 2 letters of last name) to run the linkage process
 
 
