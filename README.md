@@ -6,7 +6,7 @@
 ## How to use (example)
 
 `pip install healmatcher`
-`from hm import hm`
+
 
 ```python
 # Install package
