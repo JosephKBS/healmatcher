@@ -6,3 +6,5 @@
 ## How to use
 
 `pip install healmatcher`
+`from hm import hm`
+`hm()`
