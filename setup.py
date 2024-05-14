@@ -2,7 +2,6 @@ from setuptools import setup, find_packages
 
 VERSION = '0.0.3' 
 DESCRIPTION = 'Fast and simple probabilistic data matching package'
-#LONG_DESCRIPTION = 'This is a simple and fast data matching package developed by NYULH HEAL LAB'
 
 # Setting up
 setup(
@@ -11,7 +10,6 @@ setup(
         author="Joseph Shim github.com/JosephKBS",
         author_email="<joseph.shim.rok@gmail.com>",
         description=DESCRIPTION,
-        long_description=LONG_DESCRIPTION,
    	long_description=open("README.md", 'r').read(),
     	long_description_content_type='text/markdown',
         packages=find_packages(),
