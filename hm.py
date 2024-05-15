@@ -13,6 +13,7 @@ import splink
 from splink.duckdb.duckdb_linker import DuckDBLinker
 import splink.duckdb.duckdb_comparison_library as cl
 import splink.duckdb.comparison_template_library as ctl
+from IPython.display import display
 from blocking_rule import (blocking_rule, testa, testb)
 
    
@@ -22,7 +23,7 @@ def hm(df_a,
        col_b=None,
        match_prob_threshold=0.001, 
        iteration=20,
-       blocking_rule_prov = blocking_rule_prov,
+       blocking_rule_prov = blocking_rule,
        iteration_input = 20,
        model2 = False,
        blocking_rule_for_training_input = "PROVIDER_NUMBER",
@@ -30,12 +31,13 @@ def hm(df_a,
        visual_matchweight=False,
        visual_waterfall=False,
       match_summary=False,
+      data_name = ['dfa','dfb']
       ):
     if df_a.empty :
         raise ValueError("Left dataframe is empty")
     elif df_b.empty:
         raise ValueError("Right dataframe is empty")
-    if not blocking_rule_for_training_input in df_a or not blocking_rule_for_training_input in df_b:
+    if not blocking_rule_for_training_input in df_a.columns or not blocking_rule_for_training_input in df_b.columns:
         raise ValueError("Missing blocking columns in data!")
     else:
         blocking_rule_for_training = f'l.{blocking_rule_for_training_input} = r.{blocking_rule_for_training_input}'
@@ -46,7 +48,10 @@ def hm(df_a,
         col_a=col_a, 
         col_b=col_b, 
         match_prob_threshold=match_prob_threshold, 
-        iteration=iteration_input 
+        iteration=iteration_input ,
+        blocking_rule = blocking_rule_prov,
+        blocking_rule_for_training = blocking_rule_for_training,
+        data_name = data_name
     )
     df_a = test1.trackid_gen(df_a)
     df_b = test1.trackid_gen(df_b)
@@ -70,10 +75,10 @@ def hm(df_a,
                                 match_prob_threshold = match_prob_threshold
     )
     try:
-        test1.model_visual( df_predictions=model1[0], 
+        test1.model_visual(df_predictions=model1[0], 
                            linker=model1[1], 
-                           visual_matchweight=True, 
-                           visual_waterfall=True)
+                           visual_matchweight=visual_matchweight, 
+                           visual_waterfall=visual_waterfall)
     except:
         print("Visualization error")
         pass
@@ -126,7 +131,7 @@ class healmatcher:
                  df_b, 
                  col_a, 
                  col_b,
-                 blocking_rule = blocking_rule_prov,
+                 blocking_rule = blocking_rule,
                  blocking_rule_for_training = "l.PROVIDER_NUMBER=r.PROVIDER_NUMBER",
                  match_prob_threshold=0.001, 
                  iteration=20,
