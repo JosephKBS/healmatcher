@@ -1,7 +1,7 @@
 # test
 import pandas as pd
 import numpy as np
-from hm import (blocking_rule_prov, testa, testb, hm, healmatcher)
+from hm import (testa, testb, hm, healmatcher)
 
 blocking_rule_prov = [
     "l.DOB = r.DOB and l.PROVIDER_NUMBER=r.PROVIDER_NUMBER and l.ln=r.ln and l.sex=r.sex and l.ssn=r.ssn",
