@@ -14,7 +14,6 @@ from splink.duckdb.duckdb_linker import DuckDBLinker
 import splink.duckdb.duckdb_comparison_library as cl
 import splink.duckdb.comparison_template_library as ctl
 from IPython.display import display
-#from blocking_rule import (blocking_rule_prov, testa, testb)
 
 blocking_rule_prov = [
     "l.dob = r.dob and l.PROVIDER_NUMBER=r.PROVIDER_NUMBER and l.ln=r.ln and l.sex=r.sex and l.ssn=r.ssn",
