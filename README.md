@@ -1,13 +1,17 @@
 # healmatcher
-- `healmatcher` is a simple but fast probabilistic matching package developed by NYULH HEAL Lab.
-- Currently, the model supports 4 variables (sex, date of birth, last 4 digits of ssn, and first 2 letters of last name) to run the linkage process
+- `healmatcher` is a simple but fast probabilistic matching package developed by NYULH HEAL Lab. 
+- The package is best optimized for matching healthcare database (e.g. EHR) as it has designed to link Medicaid and Client Database System data.
+- `Splink package` is extensively being used to run core linkage processes.
+- Currently, the model supports 4 variables (`sex`, `date of birth`, `last 4 digits of ssn`, and `first 2 letters of last name`) to run the linkage process.
+- 
 
 
-## How to use (example)
+## How to install
 
 `pip install healmatcher`
 
 
+## How to use (example)
 ```python
 # Install package
 !pip install healmatcher
@@ -45,5 +49,9 @@ hm(
 )
 ```
 
+# Follow up
+- Please visit our repo if you have any questions. 
+
 # Webpage
 [healmatcher](https://pypi.org/project/healmatcher/)
+[healmatcher-github](https://github.com/JosephKBS/healmatcher)
