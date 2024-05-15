@@ -66,7 +66,8 @@ def hm(df_a,
                               model_status=1,
                               match_prob_threshold=match_prob_threshold, 
                               iteration=iteration, 
-                              blocking_rule_prov = blocking_rule_prov
+                              blocking_rule_prov = blocking_rule_prov,
+                              data_name = data_name
     )
     model1=test1.model_training(linker = linker, 
                                 blocking_rule_prov = blocking_rule_prov,
@@ -95,7 +96,8 @@ def hm(df_a,
                                     model_status=2,
                                   match_prob_threshold=match_prob_threshold, 
                                   iteration=iteration, 
-                                  blocking_rule_prov = blocking_rule_prov
+                                  blocking_rule_prov = blocking_rule_prov,
+                                  data_name = data_name
             )
             model2=test1.model_training(linker = linker2, blocking_rule_prov = blocking_rule_prov,
                 blocking_rule_for_training = blocking_rule_for_training, match_prob_threshold = match_prob_threshold
