@@ -14,16 +14,15 @@ from splink.duckdb.duckdb_linker import DuckDBLinker
 import splink.duckdb.duckdb_comparison_library as cl
 import splink.duckdb.comparison_template_library as ctl
 from IPython.display import display
-from blocking_rule import (blocking_rule, testa, testb)
+from blocking_rule import (blocking_rule_prov, testa, testb)
 
-   
 def hm(df_a, 
        df_b, 
        col_a=None, 
        col_b=None,
        match_prob_threshold=0.001, 
        iteration=20,
-       blocking_rule_prov = blocking_rule,
+       blocking_rule_prov = blocking_rule_prov,
        iteration_input = 20,
        model2 = False,
        blocking_rule_for_training_input = "PROVIDER_NUMBER",
