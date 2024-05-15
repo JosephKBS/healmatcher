@@ -1,4 +1,5 @@
 # test
 import pandas as pd
 import numpy as np
-from hm import (blocking_rule, testa, testb, hm, healmatcher)
+from blocking_rule import (blocking_rule_prov,  testa, testb)
+from healmatcher import hm
