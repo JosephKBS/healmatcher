@@ -3,24 +3,24 @@ import pandas as pd
 import numpy as np
 
 blocking_rule_prov = [
-    "l.DOB = r.DOB and l.PROVIDER_NUMBER=r.PROVIDER_NUMBER and l.ln=r.ln and l.sex=r.sex and l.ssn=r.ssn",
-    "l.DOB = r.DOB and l.PROVIDER_NUMBER=r.PROVIDER_NUMBER and l.ln=r.ln and l.ssn=r.ssn",
-    "l.DOB = r.DOB and l.PROVIDER_NUMBER=r.PROVIDER_NUMBER and l.ln=r.ln and l.sex=r.sex",
-    "l.DOB = r.DOB and l.PROVIDER_NUMBER=r.PROVIDER_NUMBER and l.sex=r.sex and l.ssn=r.ssn",
-    "l.DOB = r.DOB and l.PROVIDER_NUMBER=r.PROVIDER_NUMBER and l.sex=r.sex and l.ssn=r.ssn",
-    "l.DOB = r.DOB and l.sex=r.sex and l.ln=r.ln and l.ssn=r.ssn",
+    "l.dob = r.dob and l.PROVIDER_NUMBER=r.PROVIDER_NUMBER and l.ln=r.ln and l.sex=r.sex and l.ssn=r.ssn",
+    "l.dob = r.dob and l.PROVIDER_NUMBER=r.PROVIDER_NUMBER and l.ln=r.ln and l.ssn=r.ssn",
+    "l.dob = r.dob and l.PROVIDER_NUMBER=r.PROVIDER_NUMBER and l.ln=r.ln and l.sex=r.sex",
+    "l.dob = r.dob and l.PROVIDER_NUMBER=r.PROVIDER_NUMBER and l.sex=r.sex and l.ssn=r.ssn",
+    "l.dob = r.dob and l.PROVIDER_NUMBER=r.PROVIDER_NUMBER and l.sex=r.sex and l.ssn=r.ssn",
+    "l.dob = r.dob and l.sex=r.sex and l.ln=r.ln and l.ssn=r.ssn",
     "l.PROVIDER_NUMBER=r.PROVIDER_NUMBER and l.sex=r.sex and l.ln=r.ln and l.ssn=r.ssn",
-    "l.DOB = r.DOB and l.PROVIDER_NUMBER=r.PROVIDER_NUMBER and l.ssn=r.ssn",
-    "l.DOB = r.DOB and l.PROVIDER_NUMBER=r.PROVIDER_NUMBER and l.ln=r.ln",
-    "l.DOB = r.DOB and l.PROVIDER_NUMBER=r.PROVIDER_NUMBER and l.sex=r.sex",
-    "l.DOB = r.DOB and l.ssn=r.ssn and l.sex=r.sex",
-    "l.DOB = r.DOB and l.ssn=r.ssn and l.ln=r.ln",
+    "l.dob = r.dob and l.PROVIDER_NUMBER=r.PROVIDER_NUMBER and l.ssn=r.ssn",
+    "l.dob = r.dob and l.PROVIDER_NUMBER=r.PROVIDER_NUMBER and l.ln=r.ln",
+    "l.dob = r.dob and l.PROVIDER_NUMBER=r.PROVIDER_NUMBER and l.sex=r.sex",
+    "l.dob = r.dob and l.ssn=r.ssn and l.sex=r.sex",
+    "l.dob = r.dob and l.ssn=r.ssn and l.ln=r.ln",
     "l.PROVIDER_NUMBER=r.PROVIDER_NUMBER and l.ln=r.ln and l.ssn=r.ssn",
     "l.PROVIDER_NUMBER=r.PROVIDER_NUMBER and l.ln=r.ln and l.sex=r.sex",
     "l.PROVIDER_NUMBER=r.PROVIDER_NUMBER and l.sex=r.sex and l.ssn=r.ssn",
     "l.PROVIDER_NUMBER=r.PROVIDER_NUMBER and l.sex=r.sex and l.ln=r.ln",
-    "l.DOB = r.DOB and l.ssn=r.ssn",
-    "l.DOB = r.DOB"
+    "l.dob = r.dob and l.ssn=r.ssn",
+    "l.dob = r.dob"
 ]
 
 

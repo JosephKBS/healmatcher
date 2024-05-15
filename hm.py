@@ -130,7 +130,7 @@ class healmatcher:
                  df_b, 
                  col_a, 
                  col_b,
-                 blocking_rule = blocking_rule,
+                 blocking_rule = blocking_rule_prov,
                  blocking_rule_for_training = "l.PROVIDER_NUMBER=r.PROVIDER_NUMBER",
                  match_prob_threshold=0.001, 
                  iteration=20,
