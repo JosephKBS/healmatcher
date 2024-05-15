@@ -14,16 +14,15 @@ from splink.duckdb.duckdb_linker import DuckDBLinker
 import splink.duckdb.duckdb_comparison_library as cl
 import splink.duckdb.comparison_template_library as ctl
 from IPython.display import display
-from blocking_rule import (blocking_rule, testa, testb)
+from blocking_rule import (blocking_rule_prov, testa, testb)
 
-   
 def hm(df_a, 
        df_b, 
        col_a=None, 
        col_b=None,
        match_prob_threshold=0.001, 
        iteration=20,
-       blocking_rule_prov = blocking_rule,
+       blocking_rule_prov = blocking_rule_prov,
        iteration_input = 20,
        model2 = False,
        blocking_rule_for_training_input = "PROVIDER_NUMBER",
@@ -67,7 +66,8 @@ def hm(df_a,
                               model_status=1,
                               match_prob_threshold=match_prob_threshold, 
                               iteration=iteration, 
-                              blocking_rule_prov = blocking_rule_prov
+                              blocking_rule_prov = blocking_rule_prov,
+                              data_name = data_name
     )
     model1=test1.model_training(linker = linker, 
                                 blocking_rule_prov = blocking_rule_prov,
@@ -96,7 +96,8 @@ def hm(df_a,
                                     model_status=2,
                                   match_prob_threshold=match_prob_threshold, 
                                   iteration=iteration, 
-                                  blocking_rule_prov = blocking_rule_prov
+                                  blocking_rule_prov = blocking_rule_prov,
+                                  data_name = data_name
             )
             model2=test1.model_training(linker = linker2, blocking_rule_prov = blocking_rule_prov,
                 blocking_rule_for_training = blocking_rule_for_training, match_prob_threshold = match_prob_threshold
@@ -131,7 +132,7 @@ class healmatcher:
                  df_b, 
                  col_a, 
                  col_b,
-                 blocking_rule = blocking_rule,
+                 blocking_rule = blocking_rule_prov,
                  blocking_rule_for_training = "l.PROVIDER_NUMBER=r.PROVIDER_NUMBER",
                  match_prob_threshold=0.001, 
                  iteration=20,
