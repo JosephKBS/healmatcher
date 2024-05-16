@@ -36,7 +36,7 @@ blocking_rule_prov = [
     "l.dob = r.dob"
 ]
 
-def hm(df_a, 
+def match(df_a, 
        df_b, 
        col_a=None, 
        col_b=None,
@@ -62,8 +62,8 @@ def hm(df_a,
         blocking_rule_for_training = f'l.{blocking_rule_for_training_input} = r.{blocking_rule_for_training_input}'
     
     test1 = healmatcher(
-        df_a=testa, 
-        df_b=testb, 
+        df_a=df_a, 
+        df_b=df_b, 
         col_a=col_a, 
         col_b=col_b, 
         match_prob_threshold=match_prob_threshold, 
