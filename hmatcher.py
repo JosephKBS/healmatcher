@@ -36,115 +36,6 @@ blocking_rule_prov = [
     "l.dob = r.dob"
 ]
 
-def match(df_a, 
-       df_b, 
-       col_a=None, 
-       col_b=None,
-       match_prob_threshold=0.001, 
-       iteration=20,
-       blocking_rule_prov = blocking_rule_prov,
-       iteration_input = 20,
-       model2 = False,
-       blocking_rule_for_training_input = "PROVIDER_NUMBER",
-       onetoone=True,
-       visual_matchweight=False,
-       visual_waterfall=False,
-      match_summary=False,
-      data_name = ['dfa','dfb']
-      ):
-    if df_a.empty :
-        raise ValueError("Left dataframe is empty")
-    elif df_b.empty:
-        raise ValueError("Right dataframe is empty")
-    if not blocking_rule_for_training_input in df_a.columns or not blocking_rule_for_training_input in df_b.columns:
-        raise ValueError("Missing blocking columns in data!")
-    else:
-        blocking_rule_for_training = f'l.{blocking_rule_for_training_input} = r.{blocking_rule_for_training_input}'
-    
-    test1 = healmatcher(
-        df_a=df_a, 
-        df_b=df_b, 
-        col_a=col_a, 
-        col_b=col_b, 
-        match_prob_threshold=match_prob_threshold, 
-        iteration=iteration_input ,
-        blocking_rule = blocking_rule_prov,
-        blocking_rule_for_training = blocking_rule_for_training,
-        data_name = data_name
-    )
-    df_a = test1.trackid_gen(df_a)
-    df_b = test1.trackid_gen(df_b)
-    data_cds1 = test1.data_check(df_a, col_a )
-    data_medicaid1 = test1.data_check(df_b, col_b)
-    
-    print("Model 1 begins..")
-    linker = test1.model_setup(df_a=data_cds1, 
-                               df_b=data_medicaid1,
-                               col_a=col_a,
-                               col_b=col_b, 
-                               variable = ['dob','ln','ssn','sex'],
-                              model_status=1,
-                              match_prob_threshold=match_prob_threshold, 
-                              iteration=iteration, 
-                              blocking_rule_prov = blocking_rule_prov,
-                              data_name = data_name
-    )
-    model1=test1.model_training(linker = linker, 
-                                blocking_rule_prov = blocking_rule_prov,
-                                blocking_rule_for_training = blocking_rule_for_training, 
-                                match_prob_threshold = match_prob_threshold
-    )
-    try:
-        test1.model_visual(df_predictions=model1[0], 
-                           linker=model1[1], 
-                           visual_matchweight=visual_matchweight, 
-                           visual_waterfall=visual_waterfall)
-    except:
-        print("Visualization error")
-        pass
-    
-    print("Model 2 begins..")
-    if model2 == True:
-        un_a=test1.find_unmatch(data_cds1, model1[0].as_pandas_dataframe())
-        un_b=test1.find_unmatch(data_medicaid1, model1[0].as_pandas_dataframe())
-        if un_a.shape[0]>0 and un_b.shape[0]>0:
-            linker2 = test1.model_setup(df_a=un_a,
-                                        df_b=un_b, 
-                                        col_a=col_a,
-                                        col_b=col_b, 
-                                   variable = ['dob','ln','ssn','sex'],
-                                    model_status=2,
-                                  match_prob_threshold=match_prob_threshold, 
-                                  iteration=iteration, 
-                                  blocking_rule_prov = blocking_rule_prov,
-                                  data_name = data_name
-            )
-            model2=test1.model_training(linker = linker2, blocking_rule_prov = blocking_rule_prov,
-                blocking_rule_for_training = blocking_rule_for_training, match_prob_threshold = match_prob_threshold
-            )
-            #model2 = model_out[0].as_pandas_dataframe()
-            model1 = pd.concat([model1[0].as_pandas_dataframe(), 
-                                model2[0].as_pandas_dataframe()
-                               ]).drop_duplicates()
-        else:
-            print("No unmatched data")
-            model1 = model1[0].as_pandas_dataframe()
-            pass
-    elif model2 == False:
-        model1 = model1[0].as_pandas_dataframe()
-    # one to one
-    if onetoone == True:
-        print("One to one cleaning begins..")
-        df1 = model1[model1.groupby('unique_id_l')['match_probability'].rank(method='first', ascending=False) <= 1]
-        df1 = df1[df1.groupby('unique_id_r')['match_probability'].rank(method='first', ascending=False) <= 1]
-    gc.collect()
-    if match_summary == True:
-        print("-"*10,"Summary","-"*10)
-        print("Matched trackid counts: ", df1['unique_id_r'].nunique())
-        print("Matched rate (cds): ", round(df1['unique_id_r'].nunique()/data_cds1['trackid'].nunique(),2 )*100,"%" )
-        print("Matched rate (Medicaid): ", round(df1['unique_id_r'].nunique()/data_medicaid1['trackid'].nunique(),2 )*100,'%' )
-    print("Matching complete")
-    return df1
 
 class healmatcher:
     def __init__(self, 
@@ -280,6 +171,119 @@ class healmatcher:
     def find_unmatch(self, df_a, df1):
         unmatched = df_a[~df_a['trackid'].isin(df1['unique_id_r'].unique())]
         return unmatched
+    
+    
+def matcher(df_a, 
+       df_b, 
+       col_a=None, 
+       col_b=None,
+       match_prob_threshold=0.001, 
+       iteration=20,
+       blocking_rule_prov = blocking_rule_prov,
+       iteration_input = 20,
+       model2 = False,
+       blocking_rule_for_training_input = "PROVIDER_NUMBER",
+       onetoone=True,
+       visual_matchweight=False,
+       visual_waterfall=False,
+      match_summary=False,
+      data_name = ['dfa','dfb']
+      ):
+    if df_a.empty :
+        raise ValueError("Left dataframe is empty")
+    elif df_b.empty:
+        raise ValueError("Right dataframe is empty")
+    if not blocking_rule_for_training_input in df_a.columns or not blocking_rule_for_training_input in df_b.columns:
+        raise ValueError("Missing blocking columns in data!")
+    else:
+        blocking_rule_for_training = f'l.{blocking_rule_for_training_input} = r.{blocking_rule_for_training_input}'
+    
+    test1 = healmatcher(
+        df_a=df_a, 
+        df_b=df_b, 
+        col_a=col_a, 
+        col_b=col_b, 
+        match_prob_threshold=match_prob_threshold, 
+        iteration=iteration_input ,
+        blocking_rule = blocking_rule_prov,
+        blocking_rule_for_training = blocking_rule_for_training,
+        data_name = data_name
+    )
+    df_a = test1.trackid_gen(df_a)
+    df_b = test1.trackid_gen(df_b)
+    data_cds1 = test1.data_check(df_a, col_a )
+    data_medicaid1 = test1.data_check(df_b, col_b)
+    
+    print("Model 1 begins..")
+    linker = test1.model_setup(df_a=data_cds1, 
+                               df_b=data_medicaid1,
+                               col_a=col_a,
+                               col_b=col_b, 
+                               variable = ['dob','ln','ssn','sex'],
+                              model_status=1,
+                              match_prob_threshold=match_prob_threshold, 
+                              iteration=iteration, 
+                              blocking_rule_prov = blocking_rule_prov,
+                              data_name = data_name
+    )
+    model1=test1.model_training(linker = linker, 
+                                blocking_rule_prov = blocking_rule_prov,
+                                blocking_rule_for_training = blocking_rule_for_training, 
+                                match_prob_threshold = match_prob_threshold
+    )
+    try:
+        test1.model_visual(df_predictions=model1[0], 
+                           linker=model1[1], 
+                           visual_matchweight=visual_matchweight, 
+                           visual_waterfall=visual_waterfall)
+    except:
+        print("Visualization error")
+        pass
+    
+    print("Model 2 begins..")
+    if model2 == True:
+        un_a=test1.find_unmatch(data_cds1, model1[0].as_pandas_dataframe())
+        un_b=test1.find_unmatch(data_medicaid1, model1[0].as_pandas_dataframe())
+        if un_a.shape[0]>0 and un_b.shape[0]>0:
+            linker2 = test1.model_setup(df_a=un_a,
+                                        df_b=un_b, 
+                                        col_a=col_a,
+                                        col_b=col_b, 
+                                   variable = ['dob','ln','ssn','sex'],
+                                    model_status=2,
+                                  match_prob_threshold=match_prob_threshold, 
+                                  iteration=iteration, 
+                                  blocking_rule_prov = blocking_rule_prov,
+                                  data_name = data_name
+            )
+            model2=test1.model_training(linker = linker2, blocking_rule_prov = blocking_rule_prov,
+                blocking_rule_for_training = blocking_rule_for_training, match_prob_threshold = match_prob_threshold
+            )
+            #model2 = model_out[0].as_pandas_dataframe()
+            model1 = pd.concat([model1[0].as_pandas_dataframe(), 
+                                model2[0].as_pandas_dataframe()
+                               ]).drop_duplicates()
+        else:
+            print("No unmatched data")
+            model1 = model1[0].as_pandas_dataframe()
+            pass
+    elif model2 == False:
+        model1 = model1[0].as_pandas_dataframe()
+    # one to one
+    if onetoone == True:
+        print("One to one cleaning begins..")
+        df1 = model1[model1.groupby('unique_id_l')['match_probability'].rank(method='first', ascending=False) <= 1]
+        df1 = df1[df1.groupby('unique_id_r')['match_probability'].rank(method='first', ascending=False) <= 1]
+    gc.collect()
+    if match_summary == True:
+        print("-"*10,"Summary","-"*10)
+        print("Matched trackid counts: ", df1['unique_id_r'].nunique())
+        print("Matched rate (cds): ", round(df1['unique_id_r'].nunique()/data_cds1['trackid'].nunique(),2 )*100,"%" )
+        print("Matched rate (Medicaid): ", round(df1['unique_id_r'].nunique()/data_medicaid1['trackid'].nunique(),2 )*100,'%' )
+    print("Matching complete")
+    return df1
+
+    
     
 if __name__ == "__main__":
     print("healmatcher loaded!")
