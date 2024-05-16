@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-VERSION = '0.0.17' 
+VERSION = '0.0.18' 
 DESCRIPTION = 'Fast and simple probabilistic data matching package'
 
 # Setting up
