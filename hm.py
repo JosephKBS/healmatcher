@@ -193,8 +193,10 @@ def hm(df_a,
         raise ValueError("Left dataframe is empty")
     elif df_b.empty:
         raise ValueError("Right dataframe is empty")
-    if not blocking_rule_for_training_input in df_a.columns or not blocking_rule_for_training_input in df_b.columns:
-        raise ValueError("Missing blocking columns in data!")
+    if not blocking_rule_for_training_input in df_a.columns:
+        raise ValueError("Missing blocking columns in Left dataframe!")
+    elif not blocking_rule_for_training_input in df_b.columns:
+        raise ValueError("Missing blocking columns in Right dataframe!")
     else:
         blocking_rule_for_training = f'l.{blocking_rule_for_training_input} = r.{blocking_rule_for_training_input}'
     
@@ -236,8 +238,8 @@ def hm(df_a,
                            linker=model1[1], 
                            visual_matchweight=visual_matchweight, 
                            visual_waterfall=visual_waterfall)
-    except:
-        print("Visualization error")
+    except Exception as e:
+        print("Visualization error->", e)
         pass
     
     print("Model 2 begins..")
@@ -256,15 +258,17 @@ def hm(df_a,
                                   blocking_rule_prov = blocking_rule_prov,
                                   data_name = data_name
             )
-            model2=test1.model_training(linker = linker2, blocking_rule_prov = blocking_rule_prov,
-                blocking_rule_for_training = blocking_rule_for_training, match_prob_threshold = match_prob_threshold
+            model2=test1.model_training(linker = linker2, 
+                                        blocking_rule_prov = blocking_rule_prov,
+                                        blocking_rule_for_training = blocking_rule_for_training, 
+                                        match_prob_threshold = match_prob_threshold
             )
             #model2 = model_out[0].as_pandas_dataframe()
             model1 = pd.concat([model1[0].as_pandas_dataframe(), 
                                 model2[0].as_pandas_dataframe()
                                ]).drop_duplicates()
         else:
-            print("No unmatched data")
+            print("No unmatched data. Skipping model 2.")
             model1 = model1[0].as_pandas_dataframe()
             pass
     elif model2 == False:
