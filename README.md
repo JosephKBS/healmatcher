@@ -16,7 +16,7 @@
 !pip install healmatcher
 
 # Load package
-from hm import hm
+from healmatcher import hm
 
 # create example dataset
 testa = pd.DataFrame({
@@ -31,7 +31,7 @@ testb = pd.DataFrame({
     'dob':['2012-1-1','2001-12-1','1999-1-1','1998-11-1','2012-11-1','1984-1-1','1982-1-1','1975-1-1','1967-1-1','1954-1-1'],
     'ssn':[1111,2222,3333,4444,5555,6666,7777,8888,9999,1010],
     'ln':["as",'ls','zz','rr','wb','wa','tr','tt','ha','gq'],
-    'PROVID
+    'PROVIDER_NUMBER':[2,1,1,1,1,1,1,1,2,1]
 
 # Run matching
 hm(
@@ -42,9 +42,10 @@ hm(
     match_prob_threshold = 0.001,
     iteration = 20,
     model2 = True,
-    blocking_rule_for_input = 'PROVIDER_NUMBER',
+    blocking_rule_for_training_input = 'PROVIDER_NUMBER',
     onetoone = True,
-    match_summary = True
+    match_summary = True,
+    data_name = ['data1','data2']
 )
 ```
 
