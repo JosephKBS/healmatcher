@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-VERSION = '0.0.14' 
+VERSION = '0.0.21' 
 DESCRIPTION = 'Fast and simple probabilistic data matching package'
 
 # Setting up
@@ -10,11 +10,10 @@ setup(
         author="Joseph Shim github.com/JosephKBS",
         author_email="<joseph.shim.rok@gmail.com>",
         description=DESCRIPTION,
-   	long_description=open("README.md", 'r').read(),
+   	    long_description=open("README.md", 'r').read(),
     	long_description_content_type='text/markdown',
         packages=find_packages(),
-        install_requires=['splink','pandas','numpy'], # add any additional packages that 
-        # needs to be installed along with your package. Eg: 'caer'
+        install_requires=['splink','pandas','numpy','IPython','gc','datetime'], 
         
         keywords=['probabilistic match', 'probabilistic data match', 'splink'],
         classifiers= [
