@@ -187,7 +187,9 @@ def hm(df_a,
        visual_matchweight=False,
        visual_waterfall=False,
       match_summary=False,
-      data_name = ['dfa','dfb']
+      data_name = ['dfa','dfb'],
+      use_save_model = None,
+      save_model_path = None
       ):
     if df_a.empty :
         raise ValueError("Left dataframe is empty")
@@ -228,11 +230,30 @@ def hm(df_a,
                               blocking_rule_prov = blocking_rule_prov,
                               data_name = data_name
     )
-    model1=test1.model_training(linker = linker, 
-                                blocking_rule_prov = blocking_rule_prov,
-                                blocking_rule_for_training = blocking_rule_for_training, 
-                                match_prob_threshold = match_prob_threshold
-    )
+    
+    if use_save_model is True:
+        try:
+            model1=test1.model_training(linker = linker.load_model(save_model_path), 
+                                        blocking_rule_prov = blocking_rule_prov,
+                                        blocking_rule_for_training = blocking_rule_for_training, 
+                                        match_prob_threshold = match_prob_threshold
+            )    
+        except Exception as e:
+            print("Loading saved model error->", e)
+            print("Model running begins..")
+            model1=test1.model_training(linker = linker, 
+                                    blocking_rule_prov = blocking_rule_prov,
+                                    blocking_rule_for_training = blocking_rule_for_training, 
+                                    match_prob_threshold = match_prob_threshold
+            )
+            pass   
+    else:
+        model1=test1.model_training(linker = linker, 
+                                    blocking_rule_prov = blocking_rule_prov,
+                                    blocking_rule_for_training = blocking_rule_for_training, 
+                                    match_prob_threshold = match_prob_threshold
+        )
+    
     try:
         test1.model_visual(df_predictions=model1[0], 
                            linker=model1[1], 
