@@ -3,7 +3,6 @@ import pandas as pd
 import numpy as np
 from datetime import datetime
 import gc
-import time
 import pyarrow as pa
 import pyarrow.parquet as pq
 import time
