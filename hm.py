@@ -189,7 +189,9 @@ def hm(df_a,
       match_summary=False,
       data_name = ['dfa','dfb'],
       use_save_model = None,
-      save_model_path = None
+      save_model_path = None,
+      export_model = None,
+      export_model_path = None
       ):
     if df_a.empty :
         raise ValueError("Left dataframe is empty")
@@ -253,6 +255,14 @@ def hm(df_a,
                                     blocking_rule_for_training = blocking_rule_for_training, 
                                     match_prob_threshold = match_prob_threshold
         )
+    
+    if export_model is True:
+        try:
+            setting = model1[1].save_model_to_json(export_model_path, overwrite=True)
+        except Exception as e:
+            print("Saving model error->", e)
+            pass
+            
     
     try:
         test1.model_visual(df_predictions=model1[0], 

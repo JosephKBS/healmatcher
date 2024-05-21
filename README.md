@@ -44,10 +44,17 @@ hm(
     model2 = True,
     blocking_rule_for_training_input = 'PROVIDER_NUMBER',
     onetoone = True,
-    match_summary = True,
-    data_name = ['data1','data2']
+    match_summary = True
 )
 ```
+
+## Updates
+
+- `use_save_model=True` : Load pre-trained model to run matching
+- `save_model_path = PATH` : add path to load a model (json format)
+- `export_model=True` : argument to save current model
+- `export_model_path=PATH` : add path to save current model
+
 
 # Follow up
 - Please visit our repo if you have any questions. 
