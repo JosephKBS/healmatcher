@@ -80,19 +80,15 @@ class healmatcher:
                     #    datediff_thresholds=[12, 1],
                     #    datediff_metrics=["month", "year"],
                     #),                    
-                    ctl.date_comparison(
-                        "dob", #variable[variable.index('dob')], 
-                        cast_strings_to_date=True
-                        ),
-                    ctl.name_comparison(
-                        "ln",#variable[variable.index('ln')],
-                        levenshtein_thresholds=[1],
-                        jaro_winkler_thresholds=[],
-                        jaccard_thresholds=[1]
+                    ctl.date_comparison(variable[variable.index('dob')], cast_strings_to_date=True),
+                    ctl.name_comparison(variable[variable.index('ln')],
+                            levenshtein_thresholds=[1],
+                            jaro_winkler_thresholds=[],
+                            jaccard_thresholds=[1]
                     ),
-                    cl.levenshtein_at_thresholds("ssn",#variable[variable.index('ssn')], 
+                    cl.levenshtein_at_thresholds(variable[variable.index('ssn')], 
                                                  term_frequency_adjustments=True),
-                    cl.levenshtein_at_thresholds("sex",#variable[variable.index('sex')], 
+                    cl.levenshtein_at_thresholds(variable[variable.index('sex')], 
                                                  term_frequency_adjustments=True)
                 ],
                 "retain_matching_columns": True,
@@ -111,16 +107,13 @@ class healmatcher:
                     #    datediff_thresholds=[12, 1],
                     #    datediff_metrics=["month", "year"],
                     #),                    
-                    ctl.date_comparison(
-                            "dob", #variable[variable.index('dob')], 
-                            cast_strings_to_date=True),
-                    ctl.name_comparison(
-                            "ln",#variable[variable.index('ln')],
+                    ctl.date_comparison(variable[variable.index('dob')], cast_strings_to_date=True),
+                    ctl.name_comparison(variable[variable.index('ln')],
                             levenshtein_thresholds=[1],
                             jaro_winkler_thresholds=[],
                             jaccard_thresholds=[1]
                     ),
-                    cl.levenshtein_at_thresholds("sex",#variable[variable.index('sex')], 
+                    cl.levenshtein_at_thresholds(variable[variable.index('sex')], 
                                                  term_frequency_adjustments=True)
                 ],
                 "retain_matching_columns": True,
