@@ -1,6 +1,0 @@
-splink
-pandas
-numpy
-IPython
-gc
-datetime

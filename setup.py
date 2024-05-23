@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-VERSION = '0.0.23' 
+VERSION = '0.0.24' 
 DESCRIPTION = 'Fast and simple probabilistic data matching package'
 
 # Setting up
@@ -13,7 +13,7 @@ setup(
    	    long_description=open("README.md", 'r').read(),
     	long_description_content_type='text/markdown',
         packages=find_packages(),
-        install_requires=['splink','pandas','numpy','IPython','gc','datetime'], 
+        install_requires=['splink','pandas','numpy','IPython','datetime'], 
         
         keywords=['probabilistic match', 'probabilistic data match', 'splink'],
         classifiers= [
