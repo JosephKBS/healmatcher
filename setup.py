@@ -9,6 +9,7 @@ setup(
         version=VERSION,
         author="Joseph Shim github.com/JosephKBS",
         author_email="<joseph.shim.rok@gmail.com>",
+        url = "https://github.com/JosephKBS/healmatcher",
         description=DESCRIPTION,
    	    long_description=open("README.md", 'r').read(),
     	long_description_content_type='text/markdown',
@@ -16,6 +17,7 @@ setup(
         install_requires=['splink','pandas','numpy','IPython','datetime'], 
         
         keywords=['probabilistic match', 'probabilistic data match', 'splink'],
+        include_package_data=True,
         classifiers= [
             "Development Status :: 3 - Alpha",
             "Intended Audience :: Education",
