@@ -1,5 +1,0 @@
-splink
-pandas
-numpy
-IPython
-datetime
