@@ -1,10 +1,7 @@
-# test
 import pandas as pd
 import numpy as np
 from datetime import datetime
 import gc
-import time
-import pyarrow as pa
 import pyarrow.parquet as pq
 import time
 #!pip uninstall -y splink
@@ -14,27 +11,7 @@ from splink.duckdb.duckdb_linker import DuckDBLinker
 import splink.duckdb.duckdb_comparison_library as cl
 import splink.duckdb.comparison_template_library as ctl
 from IPython.display import display
-
-blocking_rule_prov = [
-    "l.dob = r.dob and l.PROVIDER_NUMBER=r.PROVIDER_NUMBER and l.ln=r.ln and l.sex=r.sex and l.ssn=r.ssn",
-    "l.dob = r.dob and l.PROVIDER_NUMBER=r.PROVIDER_NUMBER and l.ln=r.ln and l.ssn=r.ssn",
-    "l.dob = r.dob and l.PROVIDER_NUMBER=r.PROVIDER_NUMBER and l.ln=r.ln and l.sex=r.sex",
-    "l.dob = r.dob and l.PROVIDER_NUMBER=r.PROVIDER_NUMBER and l.sex=r.sex and l.ssn=r.ssn",
-    "l.dob = r.dob and l.PROVIDER_NUMBER=r.PROVIDER_NUMBER and l.sex=r.sex and l.ssn=r.ssn",
-    "l.dob = r.dob and l.sex=r.sex and l.ln=r.ln and l.ssn=r.ssn",
-    "l.PROVIDER_NUMBER=r.PROVIDER_NUMBER and l.sex=r.sex and l.ln=r.ln and l.ssn=r.ssn",
-    "l.dob = r.dob and l.PROVIDER_NUMBER=r.PROVIDER_NUMBER and l.ssn=r.ssn",
-    "l.dob = r.dob and l.PROVIDER_NUMBER=r.PROVIDER_NUMBER and l.ln=r.ln",
-    "l.dob = r.dob and l.PROVIDER_NUMBER=r.PROVIDER_NUMBER and l.sex=r.sex",
-    "l.dob = r.dob and l.ssn=r.ssn and l.sex=r.sex",
-    "l.dob = r.dob and l.ssn=r.ssn and l.ln=r.ln",
-    "l.PROVIDER_NUMBER=r.PROVIDER_NUMBER and l.ln=r.ln and l.ssn=r.ssn",
-    "l.PROVIDER_NUMBER=r.PROVIDER_NUMBER and l.ln=r.ln and l.sex=r.sex",
-    "l.PROVIDER_NUMBER=r.PROVIDER_NUMBER and l.sex=r.sex and l.ssn=r.ssn",
-    "l.PROVIDER_NUMBER=r.PROVIDER_NUMBER and l.sex=r.sex and l.ln=r.ln",
-    "l.dob = r.dob and l.ssn=r.ssn",
-    "l.dob = r.dob"
-]
+from blocking_rule import blocking_rule_prov,testa,testb
 
 
 class healmatcher:
