@@ -76,8 +76,8 @@ class healmatcher:
                 "comparisons": [            
                     ctl.date_comparison( variable[variable.index('dob')],
                         levenshtein_thresholds=[0.9],
-                        datediff_thresholds=[30, 12, 1],
-                        datediff_metrics=["day", "month", "year"],
+                        datediff_thresholds=[12, 1],
+                        datediff_metrics=["month", "year"],
                     ),
                     ctl.name_comparison(variable[variable.index('ln')],
                             levenshtein_thresholds=[1],
@@ -99,10 +99,13 @@ class healmatcher:
                 "link_type": "link_only",
                 "blocking_rules_to_generate_predictions":  blocking_rule_prov,
                 "comparisons": [            
+                    
+                    #  Warning:   comparison template library (ctl) format can be changed in the future 
+                    
                     ctl.date_comparison(variable[variable.index('dob')],
                         levenshtein_thresholds=[0.9],
-                        datediff_thresholds=[30, 12, 1],
-                        datediff_metrics=["day", "month", "year"],
+                        datediff_thresholds=[12, 1],
+                        datediff_metrics=["month", "year"],
                     ),
                     ctl.name_comparison(variable[variable.index('ln')],
                             levenshtein_thresholds=[1],
@@ -195,11 +198,12 @@ def hm(df_a,
         iteration=iteration_input ,
         blocking_rule = blocking_rule_prov,
         blocking_rule_for_training = blocking_rule_for_training,
-        data_name = data_name
+        data_name = data_name,
+        pair_num = pair_num_input
     )
     df_a = test1.trackid_gen(df_a)
     df_b = test1.trackid_gen(df_b)
-    data_cds1 = test1.data_check(df_a, col_a )
+    data_cds1 = test1.data_check(df_a, col_a)
     data_medicaid1 = test1.data_check(df_b, col_b)
     
     print("Model 1 begins..")
