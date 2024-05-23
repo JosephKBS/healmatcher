@@ -74,11 +74,13 @@ class healmatcher:
                 "link_type": "link_only",
                 "blocking_rules_to_generate_predictions":  blocking_rule_prov,
                 "comparisons": [            
-                    ctl.date_comparison( variable[variable.index('dob')],
-                        levenshtein_thresholds=[0.9],
-                        datediff_thresholds=[12, 1],
-                        datediff_metrics=["month", "year"],
-                    ),
+                    #  Warning:   comparison template library (ctl) format can be changed in the future 
+                    #ctl.date_comparison(variable[variable.index('dob')],
+                    #    levenshtein_thresholds=[0.9],
+                    #    datediff_thresholds=[12, 1],
+                    #    datediff_metrics=["month", "year"],
+                    #),                    
+                    ctl.date_comparison(variable[variable.index('dob')], cast_strings_to_date=True),
                     ctl.name_comparison(variable[variable.index('ln')],
                             levenshtein_thresholds=[1],
                             jaro_winkler_thresholds=[],
@@ -99,14 +101,13 @@ class healmatcher:
                 "link_type": "link_only",
                 "blocking_rules_to_generate_predictions":  blocking_rule_prov,
                 "comparisons": [            
-                    
                     #  Warning:   comparison template library (ctl) format can be changed in the future 
-                    
-                    ctl.date_comparison(variable[variable.index('dob')],
-                        levenshtein_thresholds=[0.9],
-                        datediff_thresholds=[12, 1],
-                        datediff_metrics=["month", "year"],
-                    ),
+                    #ctl.date_comparison(variable[variable.index('dob')],
+                    #    levenshtein_thresholds=[0.9],
+                    #    datediff_thresholds=[12, 1],
+                    #    datediff_metrics=["month", "year"],
+                    #),                    
+                    ctl.date_comparison(variable[variable.index('dob')], cast_strings_to_date=True),
                     ctl.name_comparison(variable[variable.index('ln')],
                             levenshtein_thresholds=[1],
                             jaro_winkler_thresholds=[],
