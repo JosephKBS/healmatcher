@@ -173,7 +173,7 @@ def hm(df_a,
       save_model_path = None,
       export_model = None,
       export_model_path = None,
-      pair_num_input = 1e6
+      pair_num = 1e6
       ):
     if df_a.empty :
         raise ValueError("Left dataframe is empty")
@@ -221,7 +221,7 @@ def hm(df_a,
                                         blocking_rule_prov = blocking_rule_prov,
                                         blocking_rule_for_training = blocking_rule_for_training, 
                                         match_prob_threshold = match_prob_threshold,
-                                        pair_num = pair_num_input
+                                        pair_num = pair_num
             )    
         except Exception as e:
             print("Loading saved model error->", e)
@@ -230,7 +230,7 @@ def hm(df_a,
                                     blocking_rule_prov = blocking_rule_prov,
                                     blocking_rule_for_training = blocking_rule_for_training, 
                                     match_prob_threshold = match_prob_threshold,
-                                    pair_num = pair_num_input
+                                    pair_num = pair_num
             )
             pass   
     else:
@@ -238,7 +238,8 @@ def hm(df_a,
                                     blocking_rule_prov = blocking_rule_prov,
                                     blocking_rule_for_training = blocking_rule_for_training, 
                                     match_prob_threshold = match_prob_threshold,
-                                    pair_num = pair_num_input
+                                    pair_num = pair_num,
+                                    pair_num = pair_num
         )
     
     if export_model is True:
@@ -278,7 +279,7 @@ def hm(df_a,
                                         blocking_rule_prov = blocking_rule_prov,
                                         blocking_rule_for_training = blocking_rule_for_training, 
                                         match_prob_threshold = match_prob_threshold,
-                                        pair_num = pair_num_input
+                                        pair_num = pair_num
             )
             #model2 = model_out[0].as_pandas_dataframe()
             model1 = pd.concat([model1[0].as_pandas_dataframe(), 
