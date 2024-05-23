@@ -24,8 +24,7 @@ class healmatcher:
                  blocking_rule_for_training = "l.PROVIDER_NUMBER=r.PROVIDER_NUMBER",
                  match_prob_threshold=0.001, 
                  iteration=20,
-                 data_name = ['data_left','data_right'],
-                 pair_num = 1e6
+                 data_name = ['data_left','data_right']
                  ):
         self.df_a = df_a
         self.df_b = df_b
@@ -36,7 +35,6 @@ class healmatcher:
         self.blocking_rule_for_training = blocking_rule_for_training
         self.blocking_rule = blocking_rule
         self.data_name = data_name
-        self.pair_num = pair_num
     
     def trackid_gen(self, check3):
         check3 = check3.astype({'sex':str,'ssn':str })
@@ -126,12 +124,10 @@ class healmatcher:
                        linker, 
                        blocking_rule_prov, 
                        blocking_rule_for_training, 
-                       match_prob_threshold,
-                       pair_num = 1e6
-                       ):
+                       match_prob_threshold):
         linker.estimate_probability_two_random_records_match( blocking_rule_prov, recall=0.6 )
         gc.collect()
-        linker.estimate_u_using_random_sampling(max_pairs=pair_num)    
+        linker.estimate_u_using_random_sampling(max_pairs=1e7)    
         gc.collect()
         linker.estimate_parameters_using_expectation_maximisation(blocking_rule_for_training)
         gc.collect()
@@ -172,8 +168,7 @@ def hm(df_a,
       use_save_model = None,
       save_model_path = None,
       export_model = None,
-      export_model_path = None,
-      pair_num = 1e6
+      export_model_path = None
       ):
     if df_a.empty :
         raise ValueError("Left dataframe is empty")
@@ -220,8 +215,7 @@ def hm(df_a,
             model1=test1.model_training(linker = linker.load_model(save_model_path), 
                                         blocking_rule_prov = blocking_rule_prov,
                                         blocking_rule_for_training = blocking_rule_for_training, 
-                                        match_prob_threshold = match_prob_threshold,
-                                        pair_num = pair_num
+                                        match_prob_threshold = match_prob_threshold
             )    
         except Exception as e:
             print("Loading saved model error->", e)
@@ -229,17 +223,14 @@ def hm(df_a,
             model1=test1.model_training(linker = linker, 
                                     blocking_rule_prov = blocking_rule_prov,
                                     blocking_rule_for_training = blocking_rule_for_training, 
-                                    match_prob_threshold = match_prob_threshold,
-                                    pair_num = pair_num
+                                    match_prob_threshold = match_prob_threshold
             )
             pass   
     else:
         model1=test1.model_training(linker = linker, 
                                     blocking_rule_prov = blocking_rule_prov,
                                     blocking_rule_for_training = blocking_rule_for_training, 
-                                    match_prob_threshold = match_prob_threshold,
-                                    pair_num = pair_num,
-                                    pair_num = pair_num
+                                    match_prob_threshold = match_prob_threshold
         )
     
     if export_model is True:
@@ -278,8 +269,7 @@ def hm(df_a,
             model2=test1.model_training(linker = linker2, 
                                         blocking_rule_prov = blocking_rule_prov,
                                         blocking_rule_for_training = blocking_rule_for_training, 
-                                        match_prob_threshold = match_prob_threshold,
-                                        pair_num = pair_num
+                                        match_prob_threshold = match_prob_threshold
             )
             #model2 = model_out[0].as_pandas_dataframe()
             model1 = pd.concat([model1[0].as_pandas_dataframe(), 
