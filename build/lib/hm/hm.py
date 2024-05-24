@@ -322,64 +322,7 @@ def hm(df_a,
     print("Matching complete")
     return df1
 
-def medicaid_clean_second(dat):
-    return dat.assign(
-        indate = dat.groupby('TRACKID')['srv_dt'].transform('min'),
-        outdate = dat.groupby('TRACKID')['srv_end_dt'].transform('max')
-    )
-
-def hm2(
-        df_l,
-        df_r,
-        matched,
-        prob_threshold = [0.8, 0.5],
-        apply_srvdate_rule = False
-    ):
-    join_r = pd.merge(
-        pd.merge(
-            df_l.drop_duplicates(),
-            matched[['match_probability','unique_id_l','unique_id_r']],
-            left_on = ['trackid'],
-            right_on = ['unique_id_l'],
-            how = 'inner'
-        ).drop_duplicates().drop(columns=['indate','outdate']).drop_duplicates(),
-        df_r,
-        left_on=['PROVIDER_NUMBER','unique_id_r'],
-        right_on=['PROVIDER_NUMBER','TRACKID'],
-        how = 'left'
-    )
-    step3 = medicaid_clean_second(join_r)
-    step3 = step3.assign(
-        group=np.where(
-            step3['match_probability']>=prob_threshold[0],"high",
-            np.where(
-                (
-                    step3['match_probability']>=prob_threshold[1] &
-                    step3['match_probability']<prob_threshold[0]
-                ),
-                1, 0
-            )
-        ),
-        check_srvdate = np.where(
-            (
-                step3['srv_dt']>=step3['indate']
-            ) &
-            (
-                step3['srv_dt']<=step3['outdate']
-            ),
-            1, 0
-        )
-    )
-    if apply_srvdate_rule==True:
-        step3=step3[
-            (
-                step3['check_srvdate']==1
-            ) &
-            (
-                step3['group'].isin(['high','medium'])
-            )
-        ]
-    return step3
+    
     
 if __name__ == "__main__":
     print("healmatcher loaded!")
