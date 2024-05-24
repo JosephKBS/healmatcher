@@ -133,8 +133,7 @@ class healmatcher:
                 "em_convergence": match_prob_threshold  
             }            
         linker = DuckDBLinker([df_a.astype({"dob":str}),
-                               df_b.astype({"dob":str})
-                               ],
+                               df_b].astype({"dob":str}),
                               settings, 
                               input_table_aliases= data_name )
         return linker
