@@ -1,13 +1,13 @@
 from setuptools import setup, find_packages
 
-VERSION = '0.0.40' 
+VERSION = '0.0.41' 
 DESCRIPTION = 'Fast and simple probabilistic data matching package'
 
 # Setting up
 setup(
         name="healmatcher", 
         version=VERSION,
-        author="Joseph Shim github.com/JosephKBS",
+        author="Joseph Shim",
         author_email="<joseph.shim.rok@gmail.com>",
         url = "https://github.com/JosephKBS/healmatcher",
         description=DESCRIPTION,

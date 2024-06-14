@@ -1,9 +1,9 @@
 Metadata-Version: 2.1
 Name: healmatcher
-Version: 0.0.40
+Version: 0.0.41
 Summary: Fast and simple probabilistic data matching package
 Home-page: https://github.com/JosephKBS/healmatcher
-Author: Joseph Shim github.com/JosephKBS
+Author: Joseph Shim
 Author-email: <joseph.shim.rok@gmail.com>
 License: UNKNOWN
 Description: # healmatcher
