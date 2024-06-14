@@ -381,5 +381,84 @@ def hm2(
         ]
     return step3
     
+    
+def hm_viz(data, data_raw, 
+           group='PROVIDER_NUMBER',
+           count='trackid', 
+           count2='new_tcn', 
+           oasas_crosswalk = False,
+           oasas_crosswalk_file = None,
+           year_of_data = year_of_data,
+           show_table = True, 
+           show_table_save=False,
+           show_visual=True,
+           show_visual_save=False
+    ):
+    df= pd.merge(
+            pd.merge(
+                pd.DataFrame(
+                    data_raw[data_raw[count].isin(data[count])].groupby(group)[count].nunique()
+                ).sort_values(by=count,ascending=False).reset_index().rename(columns={count:count+"_match"}),
+                pd.DataFrame(
+                    data_raw[~data_raw[count].isin(data[count])].groupby(group)[count].nunique()
+                ).sort_values(by=count,ascending=False).reset_index().rename(columns={count:count+"_unmatch"}),
+                on = group, how='left'
+            ),
+            pd.merge(
+                pd.DataFrame(
+                    data_raw[data_raw[count2].isin(data[count2])].groupby(group)[count2].nunique()
+                ).sort_values(by=count2,ascending=False).reset_index().rename(columns={count2:count2+"_match"}),
+                pd.DataFrame(
+                    data_raw[~data_raw[count2].isin(data[count2])].groupby(group)[count2].nunique()
+                ).sort_values(by=count2,ascending=False).reset_index().rename(columns={count2:count2+"_unmatch"}),
+                on = group, how='left'
+            ),
+            on=[group], how = 'left'
+        )
+    df[count+"_rate"]= round(df[count+"_match"]/(df[count+"_match"]+df[count+"_unmatch"])*100,1)
+    df[count2+"_rate"]= round(df[count2+"_match"]/(df[count2+"_match"]+df[count2+"_unmatch"])*100,1)
+    
+    if oasas_crosswalk == True:
+        df = pd.merge(
+            df, oasas_crosswalk_file[['PROVIDER_NUMBER','OASAS_PROVIDER_NAME']].drop_duplicates(),
+            on = ['PROVIDER_NUMBER'], how = 'left'
+        ).drop_duplicates()
+    if show_table==True:
+        from IPython.display import display
+        display(df)
+        if show_table_save ==True:
+            show_table.to_excel("match_ratio_table.xlsx")
+    if show_visual == True:
+        import plotly.graph_objects as go
+        fig = go.Figure()
+        fig.add_trace(go.Scatter(
+            x=df[group],
+            y=df[count+"_rate"],
+            customdata=df[df.columns] ,
+            hovertemplate = "%{y} % <br><b>Match count:</b> %{customdata[1]}" \
+                             "<br><b>Unmatche count:</b> %{customdata[2]} "\
+                             "<br><b>Group:</b> %{customdata[0]}" \
+                             "<br><b>Provider Name:</b> %{customdata[7]}" ,
+            mode='lines',
+            name='<b>'+count+'</b>')
+        )
+        fig.add_trace(go.Scatter(x=df[group],
+                             y=df[count2+"_rate"],
+                             customdata=df ,
+                             hovertemplate = "%{y} % <br><b>Match count:</b> %{customdata[3]}" \
+                                             "<br><b>Unmatche count:</b> %{customdata[4]} "\
+                                             "<br><b>Group:</b> %{customdata[0]}",
+                            mode='lines+markers',
+                            name='<b>'+count2+'</b>')
+        )
+        fig.update_layout(title='Match ratio by '+ group+' (20'+ year_of_data+")",
+                           xaxis_title=group,
+                           yaxis_title='Ratio (match)',
+                         plot_bgcolor='white')
+        fig.update_layout(hovermode='x unified')
+        fig.show()
+        if show_visual_save==True:
+            fig.write_html("match_ratio_visual.html")
+            
 if __name__ == "__main__":
     print("healmatcher loaded!")
