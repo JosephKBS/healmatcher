@@ -235,7 +235,8 @@ def hm(df_a,
     
     if use_save_model is True:
         try:
-            model1=test1.model_training(linker = linker.load_model(save_model_path), 
+            linker_save_model = linker.load_model({save_model_path})
+            model1=test1.model_training(linker = linker_save_model, 
                                         blocking_rule_prov = blocking_rule_prov,
                                         blocking_rule_for_training = blocking_rule_for_training, 
                                         match_prob_threshold = match_prob_threshold,
