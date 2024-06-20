@@ -235,8 +235,7 @@ def hm(df_a,
     
     if use_save_model is True:
         try:
-            linker.load_model(save_model_path)
-            model1=test1.model_training(linker = linker,#.load_model(save_model_path), 
+            model1=test1.model_training(linker = linker.load_model(save_model_path), 
                                         blocking_rule_prov = blocking_rule_prov,
                                         blocking_rule_for_training = blocking_rule_for_training, 
                                         match_prob_threshold = match_prob_threshold,
@@ -267,6 +266,7 @@ def hm(df_a,
             print("Saving model error->", e)
             pass
             
+    
     try:
         test1.model_visual(df_predictions=model1[0], 
                            linker=model1[1], 
