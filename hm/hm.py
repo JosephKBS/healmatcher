@@ -354,8 +354,12 @@ def hm2(
             step3['match_probability']>=prob_threshold[0],"high",
             np.where(
                 (
-                    step3['match_probability']>=prob_threshold[1] &
-                    step3['match_probability']<prob_threshold[0]
+                    (
+                        step3['match_probability']>=prob_threshold[1]
+                    ) &
+                    (
+                        step3['match_probability']<prob_threshold[0]
+                    )
                 ),
                 1, 0
             )
