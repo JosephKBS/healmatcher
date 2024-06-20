@@ -235,7 +235,7 @@ def hm(df_a,
     
     if use_save_model is True:
         try:
-            model1=test1.model_training(linker = linker.load_model(f'{save_model_path}'), 
+            model1=test1.model_training(linker = linker.load_model(save_model_path), 
                                         blocking_rule_prov = blocking_rule_prov,
                                         blocking_rule_for_training = blocking_rule_for_training, 
                                         match_prob_threshold = match_prob_threshold,
@@ -386,8 +386,7 @@ def hm2(
     return step3
     
     
-def hm_viz(data, 
-           data_raw, 
+def hm_viz(data, data_raw, 
            group='PROVIDER_NUMBER',
            count='trackid', 
            count2='new_tcn', 
@@ -399,8 +398,6 @@ def hm_viz(data,
            show_visual=True,
            show_visual_save=False
     ):
-    if not group in data_raw.columns:
-        raise ValueError("Missing group column in dataframe!")
     df= pd.merge(
             pd.merge(
                 pd.DataFrame(
