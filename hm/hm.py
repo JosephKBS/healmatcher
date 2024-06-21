@@ -236,7 +236,7 @@ def hm(df_a,
     if use_save_model is True:
         try:
             linker.load_model(save_model_path)
-            model1=test1.model_training(linker = linker,#.load_model(save_model_path), 
+            model1=test1.model_training(linker = linker, 
                                         blocking_rule_prov = blocking_rule_prov,
                                         blocking_rule_for_training = blocking_rule_for_training, 
                                         match_prob_threshold = match_prob_threshold,
@@ -384,7 +384,34 @@ def hm2(
             )
         ]
     return step3
-    
+
+def pretrained_model(use_saved_model="No",
+                     bring_your_model="No",
+                     save_model_output="No",
+                     type_of_data = "OTP",
+                     year_of_data = 19,
+                     bring_your_model_path = None
+                     ):
+    using_model, using_model_path,export_model,export_model_path = False,False,False,False
+    if use_saved_model=="Yes":
+        print("Using original pre-trained model")
+        using_model=True
+        if type_of_data=="OTP":
+            using_model_path='./otp/otp_'+year_of_data+"_model.json"
+        elif type_of_data=="OP":
+            using_model_path='./op/op_'+year_of_data+"_model.json"
+    if bring_your_model=="Yes":
+        bring_your_model=True
+        print("Using your own model")
+        using_model_path=bring_your_model_path.copy()
+    if save_model_output=="Yes":
+        print("Export trained model")
+        if type_of_data=="OTP":
+            export_model_path='./otp/otp_'+year_of_data+"_model.json"
+        elif type_of_data=="OP":
+            using_model_path='./op/op_'+year_of_data+"_model.json"
+    return[using_model, using_model_path, export_model, export_model_path]
+        
     
 def hm_viz(data, 
            data_raw, 
